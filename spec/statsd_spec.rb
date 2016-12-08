@@ -42,8 +42,8 @@ describe "Sensu::Extension::StatsD" do
         end
         timer(3) do
           @extension.safe_run do |output, status|
-            expect(output).to match(/foo.statsd.gauges\.tcp 1\.0/)
-            expect(output).to match(/foo.statsd.gauges\.udp 2\.0/)
+            expect(output).to match(/foo\.statsd\.gauges\.tcp 1\.0/)
+            expect(output).to match(/foo\.statsd\.gauges\.udp 2\.0/)
             expect(status).to eq(0)
             async_done
           end
