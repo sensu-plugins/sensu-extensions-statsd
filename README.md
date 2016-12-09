@@ -9,13 +9,13 @@ send to Graphite or another TSDB.
 
 On a Sensu client machine.
 
-For Sensu installs version < 0.27:
+For Sensu version < 0.27:
 
 ```
 /opt/sensu/embedded/bin/gem install sensu-extensions-statsd
 ```
 
-For Sensu installs version >= 0.27:
+For Sensu version >= 0.27:
 
 ```
 sensu-install -e statsd
