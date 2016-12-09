@@ -25,6 +25,12 @@ Edit `/etc/sensu/conf.d/extensions.json` to load it.
 }
 ```
 
+Restart the Sensu client.
+
+``` shell
+sudo service sensu-client restart
+```
+
 ## Configuration
 
 Edit `/etc/sensu/conf.d/statsd.json` to change its configuration.
@@ -48,3 +54,11 @@ Edit `/etc/sensu/conf.d/statsd.json` to change its configuration.
 |path_prefix|string|"statsd"|The optional Graphite metric path prefix (after client name)|
 |add_path_prefix|boolean|true|If the path_prefix should be used|
 |handler|string|"graphite"|Handler to use for the Graphite metrics|
+
+## Example
+
+Test the StatsD TCP socket:
+
+``` shell
+echo "orders:1|c" | nc 127.0.0.1 8125
+```
