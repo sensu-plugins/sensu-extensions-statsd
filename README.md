@@ -12,13 +12,13 @@ On a Sensu client machine.
 For Sensu version < 0.27:
 
 ```
-/opt/sensu/embedded/bin/gem install sensu-extensions-statsd
+/opt/sensu/embedded/bin/gem install sensu-extensions-statsd -v 0.0.1
 ```
 
 For Sensu version >= 0.27:
 
 ```
-sensu-install -e statsd
+sensu-install -e statsd:0.0.1
 ```
 
 Edit `/etc/sensu/conf.d/extensions.json` to load it.
