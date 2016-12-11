@@ -51,7 +51,7 @@ Edit `/etc/sensu/conf.d/statsd.json` to change its configuration.
 }
 ```
 
-|param|type|default|description|
+|attribute|type|default|description|
 |----|----|----|---|
 |bind|string|"127.0.0.1"|IP to bind the StatsD sockets to|
 |port|integer|8125|Port to bind the StatsD sockets to|
