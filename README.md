@@ -7,15 +7,7 @@ send to Graphite or another TSDB.
 
 ## Installation
 
-On a Sensu client machine.
-
-For Sensu version < 0.27:
-
-```
-/opt/sensu/embedded/bin/gem install sensu-extensions-statsd -v 0.0.1
-```
-
-For Sensu version >= 0.27:
+This extension requires Sensu version >= 0.26.
 
 ```
 sensu-install -e statsd:0.0.1
