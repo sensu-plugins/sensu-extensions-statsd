@@ -9,6 +9,8 @@ send to Graphite or another TSDB.
 
 This extension requires Sensu version >= 0.26.
 
+On a Sensu client machine.
+
 ```
 sensu-install -e statsd:0.0.1
 ```
