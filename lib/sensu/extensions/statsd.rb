@@ -27,9 +27,7 @@ module Sensu
           :flush_interval => 10,
           :send_interval => 30,
           :percentile => 90,
-          :add_client_prefix => true,
           :path_prefix => "statsd",
-          :add_path_prefix => true,
           :handler => "graphite"
         }
         @options.merge!(@settings[:statsd]) if @settings[:statsd].is_a?(Hash)
@@ -74,8 +72,7 @@ module Sensu
       def add_metric(*args)
         value = args.pop
         path = []
-        path << @settings[:client][:name] if options[:add_client_prefix]
-        path << options[:path_prefix] if options[:add_path_prefix]
+        path << options[:path_prefix].split(".")
         path = (path + args).join(".")
         if path !~ /^[A-Za-z0-9\._-]*$/
           @logger.info("invalid statsd metric", {
