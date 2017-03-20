@@ -96,7 +96,6 @@ module Sensu
         @gauges.each do |name, value|
           add_metric("gauges", name, value)
         end
-        @gauges.clear
         @counters.each do |name, value|
           add_metric("counters", name, value)
         end
