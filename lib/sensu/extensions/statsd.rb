@@ -139,7 +139,13 @@ module Sensu
             name, value = nv.split(":")
             case type
             when "g"
-              @gauges[name] = Float(value)
+              if value.start_with? '+'
+                @gauges[name] += Float(value)
+              elsif value.start_with? '-'
+                @gauges[name] -= Float(value)
+              else
+                @gauges[name] = Float(value)
+              end
             when /^c/, "m"
               _, raw_sample = type.split("@")
               sample = (raw_sample ? Float(raw_sample) : 1)
