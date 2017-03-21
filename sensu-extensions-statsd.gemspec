@@ -20,4 +20,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "sensu-logger"
   spec.add_development_dependency "sensu-settings"
+  spec.add_development_dependency "github_changelog_generator"
 end
