@@ -8,6 +8,8 @@ send to Graphite or another TSDB.
 This StatsD implementation attempts to adhere to [Etsy's metric type
 specifications](https://github.com/etsy/statsd/blob/master/docs/metric_types.md).
 
+[![Build Status](https://travis-ci.org/sensu-extensions/sensu-extensions-statsd.svg?branch=master)](https://travis-ci.org/sensu/sensu-extensions-statsd)
+
 ## Installation
 
 This extension requires Sensu version >= 0.26.
