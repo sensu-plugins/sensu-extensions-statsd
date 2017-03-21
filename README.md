@@ -17,7 +17,7 @@ This extension requires Sensu version >= 0.26.
 On a Sensu client machine.
 
 ```
-sensu-install -e statsd:0.0.1
+sensu-install -e statsd:1.0.0
 ```
 
 Edit `/etc/sensu/conf.d/extensions.json` to load it.
@@ -26,7 +26,7 @@ Edit `/etc/sensu/conf.d/extensions.json` to load it.
 {
   "extensions": {
     "statsd": {
-      "version": "0.0.1"
+      "version": "1.0.0"
     }
   }
 }
