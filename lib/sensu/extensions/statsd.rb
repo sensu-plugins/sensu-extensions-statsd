@@ -139,9 +139,9 @@ module Sensu
             name, value = nv.split(":")
             case type
             when "g"
-              if value.start_with? '+'
+              if value.start_with?("+")
                 @gauges[name] += Float(value)
-              elsif value.start_with? '-'
+              elsif value.start_with?("-")
                 @gauges[name] -= Float(value)
               else
                 @gauges[name] = Float(value)
