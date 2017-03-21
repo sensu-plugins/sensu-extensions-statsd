@@ -27,6 +27,12 @@ module Sensu
           :flush_interval => 10,
           :send_interval => 30,
           :percentile => 90,
+          :delete_gauges => false,
+          :delete_counters => false,
+          :delete_timers => false,
+          :reset_gauges => false,
+          :reset_counters => true,
+          :reset_timers => true,
           :add_client_prefix => true,
           :path_prefix => "statsd",
           :add_path_prefix => true,
@@ -71,6 +77,19 @@ module Sensu
 
       private
 
+      def clean(hash, delete=false, reset=false)
+        if delete
+          hash.delete_if do |key, value|
+            value == 0 || value == []
+          end
+        end
+        if reset
+          hash.each do |key, value|
+            hash[key] = (value.is_a?(Array) ? [] : 0)
+          end
+        end
+      end
+
       def add_metric(*args)
         value = args.pop
         path = []
@@ -94,35 +113,42 @@ module Sensu
 
       def flush!
         @gauges.each do |name, value|
-          add_metric("gauges", name, value)
-        end
-        @counters.each do |name, value|
-          add_metric("counters", name, value)
-        end
-        @counters.clear
-        @timers.each do |name, values|
-          values.sort!
-          length = values.length
-          min = values.first
-          max = values.last
-          mean = min
-          max_at_threshold = min
-          percentile = options[:percentile]
-          if length > 1
-            threshold_index = ((100 - percentile) / 100.0) * length
-            threshold_count = length - threshold_index.round
-            valid_values = values.slice(0, threshold_count)
-            max_at_threshold = valid_values[-1]
-            sum = 0
-            valid_values.each { |v| sum += v }
-            mean = sum / valid_values.length
+          unless value == 0 && options[:delete_gauges]
+            add_metric("gauges", name, value)
           end
-          add_metric("timers", name, "lower", min)
-          add_metric("timers", name, "mean", mean)
-          add_metric("timers", name, "upper", max)
-          add_metric("timers", name, "upper_#{percentile}", max_at_threshold)
         end
-        @timers.clear
+        clean(@gauges, options[:delete_gauges], options[:reset_gauges])
+        @counters.each do |name, value|
+          unless value == 0 && options[:delete_counters]
+            add_metric("counters", name, value.to_i)
+          end
+        end
+        clean(@counters, options[:delete_counters], options[:reset_counters])
+        @timers.each do |name, values|
+          unless values.empty? && options[:delete_timers]
+            values.sort!
+            length = values.length
+            min = values.first || 0
+            max = values.last || 0
+            mean = min
+            max_at_threshold = min
+            percentile = options[:percentile]
+            if length > 1
+              threshold_index = ((100 - percentile) / 100.0) * length
+              threshold_count = length - threshold_index.round
+              valid_values = values.slice(0, threshold_count)
+              max_at_threshold = valid_values[-1]
+              sum = 0
+              valid_values.each { |v| sum += v }
+              mean = sum / valid_values.length
+            end
+            add_metric("timers", name, "lower", min)
+            add_metric("timers", name, "mean", mean)
+            add_metric("timers", name, "upper", max)
+            add_metric("timers", name, "upper_#{percentile}", max_at_threshold)
+          end
+        end
+        clean(@timers, options[:delete_timers], options[:reset_timers])
         @logger.debug("flushed statsd metrics")
       end
 
@@ -135,23 +161,23 @@ module Sensu
       def setup_parser
         parser = proc do |data|
           begin
-            nv, type = data.strip.split("|")
-            name, value = nv.split(":")
+            nv, type, raw_sample = data.strip.split("|")
+            name, raw_value = nv.split(":")
+            value = Float(raw_value)
+            sample = Float(raw_sample ? raw_sample.split("@").last : 1)
             case type
             when "g"
-              if value.start_with?("+")
-                @gauges[name] += Float(value)
-              elsif value.start_with?("-")
-                @gauges[name] -= Float(value)
+              if raw_value.start_with?("+")
+                @gauges[name] += value
+              elsif raw_value.start_with?("-")
+                @gauges[name] -= value.abs
               else
-                @gauges[name] = Float(value)
+                @gauges[name] = value
               end
             when /^c/, "m"
-              _, raw_sample = type.split("@")
-              sample = (raw_sample ? Float(raw_sample) : 1)
-              @counters[name] += Integer(value) * (1 / sample)
-            when "ms", "h"
-              @timers[name] << Float(value)
+              @counters[name] += value * (1 / sample)
+            when "ms", "h", "t"
+              @timers[name] << value * (1 / sample)
             end
           rescue => error
             @logger.error("statsd parser error", :error => error.to_s)

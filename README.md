@@ -5,6 +5,11 @@ creates a StatsD TCP & UDP listener, receives StatsD metrics, parses
 them, and flushes them to the Graphite plaintext format for Sensu to
 send to Graphite or another TSDB.
 
+This StatsD implementation attempts to adhere to [Etsy's metric type
+specifications](https://github.com/etsy/statsd/blob/master/docs/metric_types.md).
+
+[![Build Status](https://travis-ci.org/sensu-extensions/sensu-extensions-statsd.svg?branch=master)](https://travis-ci.org/sensu/sensu-extensions-statsd)
+
 ## Installation
 
 This extension requires Sensu version >= 0.26.
@@ -45,6 +50,9 @@ Edit `/etc/sensu/conf.d/statsd.json` to change its configuration.
 }
 ```
 
+The following defaults make the integration behave like Etsy's StatsD
+implementation.
+
 |attribute|type|default|description|
 |----|----|----|---|
 |bind|string|"127.0.0.1"|IP to bind the StatsD sockets to|
@@ -55,6 +63,12 @@ Edit `/etc/sensu/conf.d/statsd.json` to change its configuration.
 |add_client_prefix|boolean|true|If the Sensu client name should prefix the Graphite metric path|
 |path_prefix|string|"statsd"|The optional Graphite metric path prefix (after client name)|
 |add_path_prefix|boolean|true|If the path_prefix should be used|
+|delete_gauges|boolean|false|If gauges that have not been updated should be deleted instead of flushed|
+|delete_counters|boolean|false|If counters with a value of 0 should be deleted instead of flushed|
+|delete_timers|boolean|false|If timers with a count of 0 should be deleted instead of flushed|
+|reset_gauges|boolean|false|If gauges should be reset to 0 after flushing|
+|reset_counters|boolean|true|If counters should be reset to 0 after flushing|
+|reset_timers|boolean|true|If timers should be reset/cleared after flushing|
 |handler|string|"graphite"|Handler to use for the Graphite metrics|
 
 ## Example
