@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/sensu-extensions/sensu-extensions-statsd/tree/HEAD)
-
-[Full Changelog](https://github.com/sensu-extensions/sensu-extensions-statsd/compare/v0.0.1...HEAD)
+## [v1.0.0](https://github.com/sensu-extensions/sensu-extensions-statsd/tree/v1.0.0) (2017-03-21)
+[Full Changelog](https://github.com/sensu-extensions/sensu-extensions-statsd/compare/v0.0.1...v1.0.0)
 
 **Merged pull requests:**
 
