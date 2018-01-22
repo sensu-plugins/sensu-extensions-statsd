@@ -1,5 +1,17 @@
 # Change Log
 
+### Changed
+- The definition of statsd.rb to include truncate_output as a configurable option.
+(@TQaztec)
+
+### Security
+- update 'rubocop' dependency to '~> 0.51.0' per:
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-8418.
+(@TQaztec)
+
+### Breaking Change
+- Dropping ruby 2.0 support after updating rubocop dependency.
+
 ## [v1.0.0](https://github.com/sensu-extensions/sensu-extensions-statsd/tree/v1.0.0) (2017-03-21)
 [Full Changelog](https://github.com/sensu-extensions/sensu-extensions-statsd/compare/v0.0.1...v1.0.0)
 

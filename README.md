@@ -70,6 +70,7 @@ implementation.
 |reset_counters|boolean|true|If counters should be reset to 0 after flushing|
 |reset_timers|boolean|true|If timers should be reset/cleared after flushing|
 |handler|string|"graphite"|Handler to use for the Graphite metrics|
+|truncate_output|boolean|true|If output should be truncated|
 
 ## Example
 
