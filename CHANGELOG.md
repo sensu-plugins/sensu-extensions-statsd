@@ -1,5 +1,6 @@
 # Change Log
 
+## [2.0.0] - 2017-02-01
 ### Changed
 - The definition of statsd.rb to include truncate_output as a configurable option.
 (@TQaztec)
