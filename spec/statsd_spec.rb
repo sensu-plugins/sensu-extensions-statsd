@@ -217,4 +217,17 @@ describe 'Sensu::Extension::StatsD' do
       end
     end
   end
+
+  it 'can include custom check attributes' do
+    @extension.settings = {
+      client: {
+        name: 'foo'
+      },
+      statsd: {
+        additional_attributes: { attr1: 'value' },
+      }
+    }
+    expect(@extension.definition).to include({ attr1: 'value' })
+  end
+
 end

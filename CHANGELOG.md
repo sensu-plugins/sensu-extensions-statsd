@@ -1,5 +1,9 @@
 # Change Log
 
+## [Unreleased]
+### Added
+- The definition of statsd.rb to include additional check attribute from configuration.
+
 ## [2.0.0] - 2018-02-01
 ### Changed
 - The definition of statsd.rb to include truncate_output as a configurable option.
