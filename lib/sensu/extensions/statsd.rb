@@ -44,7 +44,7 @@ module Sensu
       end
 
       def definition
-        {
+        check_attributes = {
           type: 'metric',
           name: name,
           interval: options[:send_interval],
@@ -53,6 +53,7 @@ module Sensu
           handler: options[:handler],
           truncate_output: options[:truncate_output]
         }
+        options[:additional_attributes] ? check_attributes.merge!(options[:additional_attributes]) : check_attributes
       end
 
       def post_init
